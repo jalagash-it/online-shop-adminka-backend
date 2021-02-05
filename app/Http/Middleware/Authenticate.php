@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
-
+use App\Models\User;
 class Authenticate
 {
     /**
@@ -35,11 +35,11 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $token = $request->input('api_token');
-
+        $token = $request->header('X-API-TOKEN');
+        
         $user = User::where('token', $token)->first();
         if (isset($user) === false) {
-            return response('Unauthorized.', 405);
+            return response(json_encode([$user,$token]), 405);
         }
 
         $request->user = $user;

@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
         $email = $request->input('email');
         $password = hash("sha256", $request->input('password'));
-        
+
         $user = User::where('email', $email)
             ->where('password', $password)
             ->first();
@@ -27,5 +27,10 @@ class AuthController extends Controller
 
     }
 
-   
+    public function logout(Request $request)
+    {
+        $request->user->token = null;
+        $request->user->save();
+        return null;
+    }
 }

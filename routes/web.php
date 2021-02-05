@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -18,9 +20,8 @@ $router->get('/', function () use ($router) {
 });
 $router->post('/auth/login', 'AuthController@login');
 
-$router->post('/auth/current', function (Request $request) {
-    return 123;
-    $user = $request->user;
+$router->post('/auth/current', ["middleware" => "auth", function (Request $request) {
+    return $request->user;
+}]);
 
-    return $user;
-});
+$router->post('/auth/logout', ["middleware" => "auth", 'uses' => 'AuthController@logout']);
