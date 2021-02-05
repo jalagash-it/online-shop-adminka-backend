@@ -39,7 +39,7 @@ class Authenticate
         
         $user = User::where('token', $token)->first();
         if (isset($user) === false) {
-            return response(json_encode([$user,$token]), 405);
+            return response('UnAuthenticated', 405);
         }
 
         $request->user = $user;

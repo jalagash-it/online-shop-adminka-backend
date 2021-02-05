@@ -25,3 +25,9 @@ $router->post('/auth/current', ["middleware" => "auth", function (Request $reque
 }]);
 
 $router->post('/auth/logout', ["middleware" => "auth", 'uses' => 'AuthController@logout']);
+
+$router->get('/categories', 'CategoryController@all');
+$router->get('/categories/{id}', 'CategoryController@byId');
+$router->post('/categories', 'CategoryController@create');
+$router->put('/categories/{id}', 'CategoryController@update');
+$router->delete('/categories/{id}', 'CategoryController@remove');
