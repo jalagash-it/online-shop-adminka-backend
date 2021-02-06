@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -14,6 +15,9 @@ use Illuminate\Http\Request;
 | and give it the Closure to call when that URI is requested.
 |
  */
+$router->get('/console/migrate', function (Request $request) use ($router) {
+    Artisan::call('migrate:fresh --seed');
+});
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
