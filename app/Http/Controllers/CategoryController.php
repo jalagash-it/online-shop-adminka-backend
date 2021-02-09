@@ -24,7 +24,7 @@ class CategoryController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $item = Category::firstOrFail($id);
+        $item = Category::find($id);
         $item->name = $request->input('name');
         $item->parent_id = $request->input('parent_id');
         $item->save();
