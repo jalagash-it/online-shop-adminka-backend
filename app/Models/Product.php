@@ -8,6 +8,14 @@ class Product extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-        'name', 'price',
-    ];
+        'name',
+        'price',
+        'covering',
+        'depth',
+        'width',
+        'height',
+        'wave_width',
+        'wave_height',
+        'guarantee',
+        'category_id'];
 }
