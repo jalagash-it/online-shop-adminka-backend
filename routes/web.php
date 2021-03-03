@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Artisan;
 | and give it the Closure to call when that URI is requested.
 |
  */
-$router->get('/console/migrate', function (Request $request) use ($router) {
-    Artisan::call('migrate:fresh --seed');
+$router->get('/console/run', function (Request $request) use ($router) {
+    Artisan::call('migrate');
 });
 
 $router->get('/', function () use ($router) {
