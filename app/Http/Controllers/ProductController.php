@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DynamicProp;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,11 @@ class ProductController extends Controller
 {
     public function all()
     {
-        return Product::all();
+        $products = Product::all();
+        for ($i = 0; $i < count($products); $i++) {
+            $products[$i]['fields'] = DynamicProp::where('product_id', $products[$i]['id'])->get();
+        }
+        return $products;
     }
 
     public function byId($id)
@@ -20,45 +25,35 @@ class ProductController extends Controller
     {
         $data = $request->only([
             'name',
-            'price',
-            'covering',
-            'depth',
-            'width',
-            'height',
-            'wave_width',
-            'wave_height',
-            'guarantee',
             'category_id',
         ]);
         $created = Product::create($data);
-        return $created->toJson();
+        $fields = $request->input('fields');
+        $props = [];
+        for ($i = 0; $i < count($fields); $i++) {
+            $fields[$i]['product_id'] = $created['id'];
+            array_push($props, DynamicProp::create($fields[$i]));
+        }
+
+        return ['product' => $created, 'fields' => $props];
     }
     public function update(Request $request, $id)
     {
         $data = $request->only([
             'id',
             'name',
-            'price',
-            'covering',
-            'depth',
-            'width',
-            'height',
-            'wave_width',
-            'wave_height',
-            'guarantee',
             'category_id',
         ]);
         $item = Product::find($id);
         $item->name = $request->input('name');
-        $item->price = $request->input('price');
-        $item->covering = $request->input('covering');
-        $item->depth = $request->input('depth');
-        $item->width = $request->input('width');
-        $item->height = $request->input('height');
-        $item->wave_width = $request->input('wave_width');
-        $item->wave_height = $request->input('wave_height');
-        $item->guarantee = $request->input('guarantee');
         $item->category_id = $request->input('category_id');
+        DynamicProp::where('product_id', $id)->delete();
+        $fields = $request->input('fields');
+        $props = [];
+        for ($i = 0; $i < count($fields); $i++) {
+            $fields[$i]['product_id'] = $id;
+            array_push($props, DynamicProp::create($fields[$i]));
+        }
         $item->save();
         return $item;
     }

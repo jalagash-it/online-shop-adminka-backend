@@ -33,6 +33,15 @@ class AlterProductsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('covering');
+            $table->dropColumn('depth');
+            $table->dropColumn('width');
+            $table->dropColumn('height');
+            $table->dropColumn('wave_width');
+            $table->dropColumn('wave_height');
+            $table->dropColumn('guarantee');
+            $table->dropColumn('category_id');
+        });
     }
 }
