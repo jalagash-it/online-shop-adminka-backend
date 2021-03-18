@@ -19,7 +19,9 @@ class ProductController extends Controller
 
     public function byId($id)
     {
-        return Product::find($id);
+        $product = Product::find($id);
+        $product['fields'] = DynamicProp::where('product_id', $product['id'])->get();
+        return $product;
     }
     public function create(Request $request)
     {
