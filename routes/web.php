@@ -36,9 +36,10 @@ $router->post('/categories', 'CategoryController@create');
 $router->put('/categories/{id}', 'CategoryController@update');
 $router->delete('/categories/{id}', 'CategoryController@remove');
 
-
 $router->get('/products', 'ProductController@all');
 $router->get('/products/{id}', 'ProductController@byId');
 $router->post('/products', 'ProductController@create');
+$router->post('/products/{id}/addPhoto', 'ProductController@addPhoto');
+$router->post('/products/{id}/removePhoto', 'ProductController@removePhoto');
 $router->put('/products/{id}', 'ProductController@update');
 $router->delete('/products/{id}', 'ProductController@remove');

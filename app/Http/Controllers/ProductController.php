@@ -39,6 +39,13 @@ class ProductController extends Controller
 
         return ['product' => $created, 'fields' => $props];
     }
+
+    public function addPhoto(Request $request, $id)
+    {
+        print_r($_FILES['f']);
+        return $id;
+    }
+
     public function update(Request $request, $id)
     {
         $data = $request->only([
